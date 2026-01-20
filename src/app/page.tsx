@@ -1,48 +1,56 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  const [showInstall, setShowInstall] = useState(false);
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+      setShowInstall(true);
+    };
+
+    window.addEventListener("beforeinstallprompt", handler);
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
+
+  const installApp = async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    await installPrompt.userChoice;
+    setShowInstall(false);
+  };
 
   return (
-    <main style={{ padding: 30, fontFamily: "sans-serif" }}>
-      <h1>Certificate Portal (PWA Demo)</h1>
+    <main style={{ padding: 30 }}>
+      <h1>Certificate Portal</h1>
+      <button>Login with Smart-ID</button>
 
-      {!loggedIn ? (
-        <>
-          <p>Scan QR or login to access your certificates.</p>
-
-          {/* Demo QR code */}
-          <img
-            src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://pwa-cert-demo.vercel.app"
-            alt="QR Code"
-          />
-
-          <br /><br />
-
+      {showInstall && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: 20,
+            left: 20,
+            right: 20,
+            background: "#2563eb",
+            color: "white",
+            padding: 16,
+            borderRadius: 10,
+          }}
+        >
+          <p style={{ margin: 0 }}>
+            Install this app for faster access to your certificates
+          </p>
           <button
-            onClick={() => setLoggedIn(true)}
-            style={{ padding: 12, fontSize: 16 }}
+            onClick={installApp}
+            style={{ marginTop: 10, padding: 8 }}
           >
-            Login with Smart-ID
+            Install App
           </button>
-        </>
-      ) : (
-        <>
-          <h2>My Certificates</h2>
-          <ul>
-            <li>
-              ✅ Web Security Training —
-              <a
-                href="/demo-certificate.pdf"
-                download
-                style={{ marginLeft: 8 }}
-              >
-                Download PDF
-              </a>
-            </li>
-          </ul>
-        </>
+        </div>
       )}
     </main>
   );
