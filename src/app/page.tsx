@@ -6,11 +6,20 @@ export default function Home() {
 
   return (
     <main style={{ padding: 30, fontFamily: "sans-serif" }}>
-      <h1>Certificate Portal</h1>
+      <h1>Certificate Portal (PWA Demo)</h1>
 
       {!loggedIn ? (
         <>
-          <p>Please authenticate to access your certificates.</p>
+          <p>Scan QR or login to access your certificates.</p>
+
+          {/* Demo QR code */}
+          <img
+            src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://pwa-cert-demo.vercel.app"
+            alt="QR Code"
+          />
+
+          <br /><br />
+
           <button
             onClick={() => setLoggedIn(true)}
             style={{ padding: 12, fontSize: 16 }}
@@ -22,8 +31,16 @@ export default function Home() {
         <>
           <h2>My Certificates</h2>
           <ul>
-            <li>✅ Web Security Training (PDF)</li>
-            <li>✅ Company Compliance Course (PDF)</li>
+            <li>
+              ✅ Web Security Training —
+              <a
+                href="/demo-certificate.pdf"
+                download
+                style={{ marginLeft: 8 }}
+              >
+                Download PDF
+              </a>
+            </li>
           </ul>
         </>
       )}
