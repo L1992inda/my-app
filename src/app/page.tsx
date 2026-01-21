@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 
+const APP_URL = "https://your-app-name.vercel.app";
+
 export default function Home() {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [showInstall, setShowInstall] = useState(false);
@@ -26,6 +28,17 @@ export default function Home() {
   return (
     <main style={{ padding: 30 }}>
       <h1>Certificate Portal</h1>
+
+      {/* QR CODE SECTION */}
+      <p>Scan this QR code to open the app on your phone:</p>
+      <img
+        src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${APP_URL}`}
+        alt="QR code to open app"
+        style={{ marginBottom: 20 }}
+      />
+
+      <br />
+
       <button>Login with Smart-ID</button>
 
       {showInstall && (
