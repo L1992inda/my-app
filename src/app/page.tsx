@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-const APP_URL = "https://your-app-name.vercel.app";
+const APP_URL = "https://pwa-cert-demo.vercel.app/";
 
 export default function Home() {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
